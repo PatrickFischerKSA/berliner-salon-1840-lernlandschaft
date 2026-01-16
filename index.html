@@ -4,856 +4,158 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Berliner Salon 1840 – Digitale Lernlandschaft</title>
-  <meta name="description" content="Quellengebundene digitale Lernlandschaft: Berliner Salon 1840, Rollen, Module, Aufgaben, Export, Teacher-Mode." />
+  <meta name="description" content="Quellengebundene digitale Lernlandschaft: Berliner Salon 1840, Rollen-Diskussion, Frauen in der bürgerlichen Gesellschaft." />
+  <link rel="stylesheet" href="assets/css/style.css" />
 
+  <!-- ===========================
+       NEU (ÄNDERUNG 1): GLOBALER HINTERGRUND
+       Bilddatei muss liegen unter:
+       assets/images/Stadtschloss_Gelber_Salon.jpg
+       =========================== -->
   <style>
-    :root{
-      --bg: #0d0f14;
-      --panel: rgba(255,255,255,0.08);
-      --panel2: rgba(255,255,255,0.12);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.70);
-      --faint: rgba(255,255,255,0.55);
-      --line: rgba(255,255,255,0.14);
-      --accent: rgba(180, 200, 255, 0.95);
-      --danger: rgba(255, 110, 110, 0.95);
-      --ok: rgba(140, 255, 190, 0.95);
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
-      --radius: 18px;
-      --radius2: 12px;
-      --max: 1100px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    }
-
-    html, body { height: 100%; }
+    /* Globaler Seitenhintergrund: Gelber Salon (Stadtschloss) */
     body{
-      margin:0;
-      font-family: var(--sans);
       background:
-        radial-gradient(1200px 900px at 10% 0%, rgba(80,110,255,0.18), transparent 60%),
-        radial-gradient(900px 700px at 90% 10%, rgba(255,180,120,0.10), transparent 60%),
-        radial-gradient(900px 700px at 50% 100%, rgba(140,255,190,0.09), transparent 60%),
-        var(--bg);
-      color: var(--text);
+        /* dunkle Überlagerung für Lesbarkeit (Text/Buttons/Panele) */
+        linear-gradient(rgba(5,7,9,0.78), rgba(5,7,9,0.78)),
+        /* Bild als globales Hintergrundmotiv */
+        url("assets/images/Stadtschloss_Gelber_Salon.jpg") center center / cover fixed no-repeat !important;
     }
-
-    a{ color: var(--accent); text-decoration: none; }
-    a:hover{ text-decoration: underline; }
-
-    .wrap{ max-width: var(--max); margin: 0 auto; padding: 22px 16px 56px; }
-
-    header{
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(13,15,20,0.92), rgba(13,15,20,0.55));
-      border-bottom: 1px solid var(--line);
-    }
-
-    .header-inner{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 16px 16px;
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      justify-content: space-between;
-    }
-
-    .brand{
-      display:flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .brand .title{
-      font-size: 18px;
-      font-weight: 750;
-      letter-spacing: 0.2px;
-    }
-    .brand .sub{
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .actions{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items:center;
-      justify-content: flex-end;
-    }
-
-    button, .btn{
-      appearance:none;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      padding: 9px 12px;
-      border-radius: 999px;
-      cursor:pointer;
-      box-shadow: none;
-      transition: transform 0.05s ease, background 0.12s ease, border-color 0.12s ease;
-      font-weight: 650;
-      font-size: 13px;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      user-select: none;
-    }
-    button:hover, .btn:hover{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.20); }
-    button:active, .btn:active{ transform: translateY(1px); }
-    button.danger{ border-color: rgba(255,110,110,0.35); background: rgba(255,110,110,0.10); }
-    button.danger:hover{ background: rgba(255,110,110,0.16); border-color: rgba(255,110,110,0.45); }
-    button.ok{ border-color: rgba(140,255,190,0.35); background: rgba(140,255,190,0.10); }
-    button.ok:hover{ background: rgba(140,255,190,0.16); border-color: rgba(140,255,190,0.45); }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .panel{
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    .panel-head{
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      display:flex;
-      align-items:flex-start;
-      justify-content: space-between;
-      gap: 10px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(255,255,255,0.00));
-    }
-
-    .panel-title{
-      display:flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .panel-title h2, .panel-title h3{
-      margin:0;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 0.2px;
-    }
-    .panel-title .meta{
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-
-    .panel-body{
-      padding: 14px 16px 16px;
-    }
-
-    .kicker{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items:center;
-    }
-    .tag{
-      font-size: 12px;
-      color: var(--muted);
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      border-radius: 999px;
-      padding: 6px 10px;
-    }
-
-    .cols{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 880px){
-      .cols{ grid-template-columns: 1.1fr 0.9fr; }
-    }
-
-    .list{
-      display:flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .item{
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      border-radius: var(--radius2);
-      padding: 12px;
-    }
-
-    .item h4{
-      margin: 0 0 6px;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 0.2px;
-    }
-    .item p{
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .hr{
-      height: 1px;
-      background: var(--line);
-      margin: 14px 0;
-    }
-
-    .field{
-      display:flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 10px;
-    }
-    .field label{
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    textarea, input[type="text"], input[type="password"]{
-      width: 100%;
-      box-sizing: border-box;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(0,0,0,0.25);
-      color: var(--text);
-      padding: 10px 12px;
-      font-family: var(--sans);
-      font-size: 14px;
-      line-height: 1.4;
-      outline: none;
-    }
-    textarea{ min-height: 90px; resize: vertical; }
-
-    .small{ font-size: 12px; color: var(--muted); line-height: 1.4; }
-    .mono{ font-family: var(--mono); }
-
-    details{
-      border: 1px solid var(--line);
-      border-radius: var(--radius2);
-      background: rgba(255,255,255,0.05);
-      overflow:hidden;
-    }
-    details > summary{
-      cursor:pointer;
-      padding: 12px;
-      font-weight: 800;
-      list-style: none;
-      user-select: none;
-    }
-    details > summary::-webkit-details-marker{ display:none; }
-    details .details-body{ padding: 0 12px 12px; border-top: 1px solid var(--line); }
-
-    .two{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 700px){
-      .two{ grid-template-columns: 1fr 1fr; }
-    }
-
-    .pdf{
-      width: 100%;
-      height: 420px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      overflow:hidden;
-      background: rgba(0,0,0,0.25);
-    }
-
-    .notice{
-      border: 1px solid rgba(255,180,120,0.35);
-      background: rgba(255,180,120,0.10);
-      border-radius: var(--radius2);
-      padding: 12px;
-      color: rgba(255,230,210,0.95);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .okbox{
-      border: 1px solid rgba(140,255,190,0.35);
-      background: rgba(140,255,190,0.10);
-      border-radius: var(--radius2);
-      padding: 12px;
-      color: rgba(210,255,235,0.95);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .dangerbox{
-      border: 1px solid rgba(255,110,110,0.35);
-      background: rgba(255,110,110,0.10);
-      border-radius: var(--radius2);
-      padding: 12px;
-      color: rgba(255,220,220,0.95);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .footer{
-      margin-top: 24px;
-      color: var(--faint);
-      font-size: 12px;
-      line-height: 1.45;
-      text-align: center;
-    }
-
-    .hidden{ display:none !important; }
   </style>
 </head>
 
 <body>
-<header>
-  <div class="header-inner">
-    <div class="brand">
-      <div class="title">Berliner Salon 1840 – Digitale Lernlandschaft</div>
-      <div class="sub">Quellengebunden · Rollenbasiert · Export/Reset · LocalStorage</div>
-    </div>
-    <div class="actions">
-      <button id="btnTeacher" class="btn">Teacher-Mode</button>
-      <button id="btnExport" class="btn ok">Export (JSON)</button>
-      <button id="btnExportPDF" class="btn ok">Export (Druck/PDF)</button>
-      <button id="btnReset" class="btn danger">Reset</button>
-    </div>
-  </div>
-</header>
+  <div id="app" class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand__title">Berliner Salon 1840</div>
+        <div class="brand__subtitle">Digitale Lernlandschaft – quellengebunden, rollenbasiert, exportierbar</div>
+      </div>
+      <div class="topbar__actions">
+        <button id="btnTeacher" class="btn btn--ghost" type="button" title="Teacher-Mode (Passwort)">Teacher</button>
+        <button id="btnExport" class="btn" type="button" title="Export als PDF & JSON">Export</button>
+        <button id="btnReset" class="btn btn--danger" type="button" title="Fortschritt zurücksetzen">Reset</button>
+      </div>
+    </header>
 
-<div class="wrap" id="app">
-  <div class="panel">
-    <div class="panel-head">
-      <div class="panel-title">
-        <h2>Systemcheck</h2>
-        <div class="meta">Diese Seite rendert Inhalte aus <span class="mono">window.RESOURCES / window.ROLES / window.MODULES</span> (geladen aus <span class="mono">data/content.js</span>).</div>
-      </div>
-      <div class="kicker">
-        <span id="statusContent" class="tag">Content: …</span>
-        <span id="statusStorage" class="tag">Storage: …</span>
-        <span id="statusTeacher" class="tag">Teacher: OFF</span>
-      </div>
-    </div>
-    <div class="panel-body">
-      <div id="systemMsg" class="notice">
-        Wenn du hier „Content: OK“ siehst, ist die wichtigste Gefahr ausgeschlossen: Dann ist <span class="mono">data/content.js</span> korrekt geladen und der Renderer kann alle Module anzeigen.
-      </div>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="panel" id="panelResources">
-      <div class="panel-head">
-        <div class="panel-title">
-          <h2>Ressourcen</h2>
-          <div class="meta">Externe Links sind explizit verlinkt. Interne Quellen sind als PDFs im Repo eingebettet.</div>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div class="cols">
-          <div>
-            <h3 style="margin:0 0 10px;font-size:14px;">Extern</h3>
-            <div id="externalList" class="list"></div>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="card card--soft">
+          <div class="card__title">Fortschritt</div>
+          <div class="progress">
+            <div class="progress__bar" id="progressBar"></div>
           </div>
-          <div>
-            <h3 style="margin:0 0 10px;font-size:14px;">Intern (PDFs)</h3>
-            <div id="internalList" class="list"></div>
+          <div class="muted" id="progressText">0%</div>
+        </div>
+
+        <nav class="nav" id="navModules" aria-label="Module"></nav>
+
+        <div class="card card--soft">
+          <div class="card__title">Ressourcen</div>
+          <div class="small">Externe Links (explizit):</div>
+          <ul class="linklist" id="externalLinks"></ul>
+          <div class="small" style="margin-top:10px;">PDFs im Repo:</div>
+          <ul class="linklist" id="internalLinks"></ul>
+        </div>
+
+        <div class="card card--soft">
+          <div class="card__title">Arbeitsmodus</div>
+          <ul class="small">
+            <li>Keine Gemeinplätze.</li>
+            <li>Jede Behauptung: Quelle oder Textstelle.</li>
+            <li>Konflikte nicht glätten.</li>
+            <li>Export ist Teil der Abgabe.</li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="hero" id="hero">
+          <div class="hero__inner">
+            <h1>Ein Abend „bei Varnhagen“</h1>
+            <p>
+              Du arbeitest mit historischen und literarischen Quellen und spielst eine Rolle in einem Berliner Salon (1840).
+              Ziel ist keine „richtige Lösung“, sondern quellenbasierte Argumentation.
+            </p>
+            <div class="hero__grid">
+              <div class="hero__box">
+                <div class="hero__label">Impuls</div>
+                <div class="hero__content" id="heroImpulse"></div>
+              </div>
+              <div class="hero__box">
+                <div class="hero__label">Regel</div>
+                <div class="hero__content">
+                  Jede Runde endet mit einem <strong>Quellenbeleg</strong>: „Welche Stelle trägt deine Aussage?“
+                </div>
+              </div>
+              <div class="hero__box">
+                <div class="hero__label">Tipp</div>
+                <div class="hero__content">
+                  Nutze den Export: Du bekommst ein PDF (Abgabe) und eine JSON-Datei (Dokumentation).
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div class="hr"></div>
+        <section class="content" id="content"></section>
 
-        <details>
-          <summary>PDFs direkt anzeigen (Einbettung)</summary>
-          <div class="details-body">
-            <div id="pdfEmbeds" class="two"></div>
+        <footer class="footer">
+          <div class="small">
+            Erstellt für GitHub Pages. Offline-fähig (ohne Server). Externe Inhalte werden nur über die explizit verlinkten Quellen geladen.
           </div>
-        </details>
-      </div>
-    </div>
-
-    <div class="panel" id="panelRoles">
-      <div class="panel-head">
-        <div class="panel-title">
-          <h2>Rollen</h2>
-          <div class="meta">Rollen sind nicht „Charaktere“, sondern quellengebundene Argumentationspositionen mit Constraints.</div>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div id="rolesList" class="list"></div>
-      </div>
-    </div>
-
-    <div class="panel" id="panelModules">
-      <div class="panel-head">
-        <div class="panel-title">
-          <h2>Module</h2>
-          <div class="meta">Alle Aufgabenfelder speichern automatisch. Export sammelt Antworten strukturiert.</div>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div id="modulesList" class="list"></div>
-      </div>
+        </footer>
+      </main>
     </div>
   </div>
 
-  <div class="footer">
-    Lokale Speicherung im Browser (LocalStorage). Export/Reset funktionieren ohne Server. GitHub Pages-kompatibel.
-  </div>
-</div>
-
-<!-- ✅ ZWINGEND: Content zuerst -->
-<script src="data/content.js"></script>
-
-<script>
-(function(){
-  "use strict";
-
-  const STORAGE_KEY = "salon1840_progress_v1";
-  const TEACHER_KEY = "salon1840_teacher_v1";
-  const DEFAULT_TEACHER_PASSWORD = "SALON1840";
-
-  const el = (id) => document.getElementById(id);
-
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : { fields: {}, meta: { createdAt: new Date().toISOString() } };
-    }catch(e){
-      return { fields: {}, meta: { createdAt: new Date().toISOString(), error: String(e) } };
-    }
-  }
-
-  function saveState(state){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }
-
-  function setTeacher(on){
-    localStorage.setItem(TEACHER_KEY, on ? "1" : "0");
-    renderStatus();
-    renderTeacherVisibility();
-  }
-
-  function isTeacher(){
-    return localStorage.getItem(TEACHER_KEY) === "1";
-  }
-
-  function renderStatus(){
-    const hasContent = !!(window.RESOURCES && window.ROLES && window.MODULES);
-    el("statusContent").textContent = hasContent ? "Content: OK" : "Content: FEHLT";
-    el("statusStorage").textContent = "Storage: " + (localStorage ? "OK" : "FEHLT");
-    el("statusTeacher").textContent = "Teacher: " + (isTeacher() ? "ON" : "OFF");
-
-    if(!hasContent){
-      el("systemMsg").className = "dangerbox";
-      el("systemMsg").innerHTML =
-        "KRITISCH: <span class='mono'>data/content.js</span> ist nicht korrekt geladen. " +
-        "Prüfe: Datei liegt in <span class='mono'>/data/content.js</span> und enthält <span class='mono'>window.RESOURCES</span>, <span class='mono'>window.ROLES</span>, <span class='mono'>window.MODULES</span>.";
-    }else{
-      el("systemMsg").className = "okbox";
-      el("systemMsg").innerHTML =
-        "OK: Inhalte sind geladen. Wenn trotzdem nichts erscheint, ist es kein Pfadproblem mehr, sondern dann wäre die Datenstruktur defekt.";
-    }
-  }
-
-  function safeText(s){
-    return (s === null || s === undefined) ? "" : String(s);
-  }
-
-  function makeItem(title, bodyHtml){
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = "<h4>"+title+"</h4>" + bodyHtml;
-    return div;
-  }
-
-  function renderResources(){
-    const ext = el("externalList");
-    const intl = el("internalList");
-    const pdf = el("pdfEmbeds");
-
-    ext.innerHTML = "";
-    intl.innerHTML = "";
-    pdf.innerHTML = "";
-
-    (window.RESOURCES.external || []).forEach(r => {
-      const body =
-        "<p><a href='"+r.url+"' target='_blank' rel='noopener'>"+safeText(r.url)+"</a></p>" +
-        "<p>"+safeText(r.note || "")+"</p>";
-      ext.appendChild(makeItem(safeText(r.title || "Externe Ressource"), body));
-    });
-
-    (window.RESOURCES.internal || []).forEach(r => {
-      const body =
-        "<p><span class='mono'>"+safeText(r.path)+"</span></p>" +
-        "<p>"+safeText(r.cite || "")+"</p>" +
-        "<p><a href='"+safeText(r.path)+"' target='_blank' rel='noopener'>PDF öffnen</a></p>";
-      intl.appendChild(makeItem(safeText(r.title || "Interne Quelle"), body));
-
-      const box = document.createElement("div");
-      box.className = "item";
-      box.innerHTML =
-        "<h4>"+safeText(r.title || "PDF")+"</h4>" +
-        "<div class='small mono'>"+safeText(r.path)+"</div>" +
-        "<div class='pdf'><iframe title='PDF' src='"+safeText(r.path)+"' style='width:100%;height:100%;border:0;'></iframe></div>";
-      pdf.appendChild(box);
-    });
-  }
-
-  function renderRoles(){
-    const list = el("rolesList");
-    list.innerHTML = "";
-
-    (window.ROLES || []).forEach(role => {
-      const focus = Array.isArray(role.focus) ? role.focus.map(x => "<span class='tag'>"+safeText(x)+"</span>").join(" ") : "";
-      const constraints = Array.isArray(role.constraints)
-        ? "<ul style='margin:8px 0 0 18px;color:var(--muted);font-size:13px;line-height:1.45;'>" +
-          role.constraints.map(c => "<li>"+safeText(c)+"</li>").join("") +
-          "</ul>"
-        : "";
-
-      const starter = role.starterLine ? "<div class='notice' style='margin-top:10px;'><b>Starter:</b> "+safeText(role.starterLine)+"</div>" : "";
-
-      const body =
-        "<p><b>Modus:</b> "+safeText(role.mode || "")+"</p>" +
-        (focus ? "<div class='kicker' style='margin-top:8px;'>"+focus+"</div>" : "") +
-        (constraints || "") +
-        starter;
-
-      list.appendChild(makeItem(safeText(role.name || role.id || "Rolle"), body));
-    });
-  }
-
-  function ensureStateField(state, id){
-    if(!state.fields[id]) state.fields[id] = "";
-    return state.fields[id];
-  }
-
-  function bindTextarea(state, id, textarea){
-    textarea.value = ensureStateField(state, id);
-    textarea.addEventListener("input", () => {
-      state.fields[id] = textarea.value;
-      saveState(state);
-    });
-  }
-
-  function renderTask(state, moduleId, task, taskIndex){
-    const wrap = document.createElement("div");
-    wrap.className = "item";
-
-    const title = safeText(task.title || ("Aufgabe " + (taskIndex+1)));
-    const prompt = safeText(task.prompt || "");
-
-    wrap.innerHTML =
-      "<h4>"+title+"</h4>" +
-      (prompt ? "<p style='white-space:pre-wrap;'>"+prompt.replace(/</g,"&lt;")+"</p>" : "");
-
-    const type = safeText(task.type || "");
-
-    // Универсelle Felder-Renderer
-    if(Array.isArray(task.fields)){
-      task.fields.forEach((f) => {
-        const fid = safeText(f.id);
-        const label = safeText(f.label || fid);
-        const placeholder = safeText(f.placeholder || "");
-        const field = document.createElement("div");
-        field.className = "field";
-        const ta = document.createElement("textarea");
-        ta.placeholder = placeholder;
-
-        const key = moduleId + "::" + fid;
-        field.innerHTML = "<label for='"+key+"'>"+label+"</label>";
-        ta.id = key;
-
-        bindTextarea(state, key, ta);
-
-        field.appendChild(ta);
-        wrap.appendChild(field);
-      });
-    }
-
-    // Rows renderer (source_grid)
-    if(Array.isArray(task.rows)){
-      task.rows.forEach((r) => {
-        const rid = safeText(r.id);
-        const label = safeText(r.label || rid);
-        const field = document.createElement("div");
-        field.className = "field";
-        const ta = document.createElement("textarea");
-        ta.placeholder = "Antwort…";
-
-        const key = moduleId + "::" + rid;
-        field.innerHTML = "<label for='"+key+"'>"+label+"</label>";
-        ta.id = key;
-
-        bindTextarea(state, key, ta);
-
-        field.appendChild(ta);
-        wrap.appendChild(field);
-      });
-    }
-
-    // Compare renderer (fields already covered) — nothing else
-
-    // Quiz renderer (basic: answer + teacher view model)
-    if(Array.isArray(task.questions)){
-      task.questions.forEach((q, qi) => {
-        const qid = safeText(q.id || ("q"+qi));
-        const qText = safeText(q.question || "");
-        const key = moduleId + "::" + qid;
-
-        const box = document.createElement("div");
-        box.className = "field";
-        box.innerHTML = "<label for='"+key+"'>"+(qi+1)+") "+qText+"</label>";
-
-        const ta = document.createElement("textarea");
-        ta.id = key;
-        ta.placeholder = "Antwort…";
-        bindTextarea(state, key, ta);
-
-        box.appendChild(ta);
-
-        // Teacher: model answer + accept tokens
-        const teacherBox = document.createElement("div");
-        teacherBox.className = "small";
-        teacherBox.setAttribute("data-teacher-only", "1");
-
-        const model = safeText(q.model || "");
-        const accept = Array.isArray(q.accept) ? q.accept.join(", ") : "";
-
-        teacherBox.innerHTML =
-          "<div class='hr'></div>" +
-          "<div><b>Teacher-Hinweis (Model):</b> "+(model ? "<span style='white-space:pre-wrap;'>"+model.replace(/</g,"&lt;")+"</span>" : "—")+"</div>" +
-          "<div style='margin-top:6px;'><b>Accept-Tokens:</b> <span class='mono'>"+accept.replace(/</g,"&lt;")+"</span></div>";
-
-        box.appendChild(teacherBox);
-        wrap.appendChild(box);
-      });
-    }
-
-    // Salon rounds renderer
-    if(Array.isArray(task.rounds)){
-      task.rounds.forEach((r, ri) => {
-        const rid = safeText(r.id || ("round"+ri));
-        const label = safeText(r.title || ("Runde " + (ri+1)));
-        const key = moduleId + "::" + rid;
-
-        const field = document.createElement("div");
-        field.className = "field";
-        field.innerHTML = "<label for='"+key+"'>"+label+"</label>";
-
-        const ta = document.createElement("textarea");
-        ta.id = key;
-        ta.placeholder = "Dokumentation: (a) Aussage, (b) Widerspruch, (c) Quelle, (d) Kipppunkt…";
-        bindTextarea(state, key, ta);
-
-        field.appendChild(ta);
-        wrap.appendChild(field);
-      });
-    }
-
-    // If task has no structured fields, provide a general answer box (non-placeholder: explicit)
-    const hasAnyInputs =
-      (Array.isArray(task.fields) && task.fields.length>0) ||
-      (Array.isArray(task.rows) && task.rows.length>0) ||
-      (Array.isArray(task.questions) && task.questions.length>0) ||
-      (Array.isArray(task.rounds) && task.rounds.length>0);
-
-    if(!hasAnyInputs){
-      const key = moduleId + "::task" + taskIndex + "::answer";
-      const field = document.createElement("div");
-      field.className = "field";
-      field.innerHTML = "<label for='"+key+"'>Antwort / Notizen (zu dieser Aufgabe)</label>";
-      const ta = document.createElement("textarea");
-      ta.id = key;
-      ta.placeholder = "Schreibe hier deine Antwort/Notizen zur Aufgabe. (wird automatisch gespeichert)";
-      bindTextarea(state, key, ta);
-      field.appendChild(ta);
-      wrap.appendChild(field);
-    }
-
-    // Show type in teacher-only metadata
-    const tmeta = document.createElement("div");
-    tmeta.className = "small mono";
-    tmeta.setAttribute("data-teacher-only", "1");
-    tmeta.style.marginTop = "10px";
-    tmeta.textContent = "task.type = " + type;
-    wrap.appendChild(tmeta);
-
-    return wrap;
-  }
-
-  function renderModules(){
-    const list = el("modulesList");
-    list.innerHTML = "";
-    const state = loadState();
-
-    (window.MODULES || []).forEach((m) => {
-      const mod = document.createElement("div");
-      mod.className = "item";
-
-      const goals = Array.isArray(m.goals)
-        ? "<ul style='margin:8px 0 0 18px;color:var(--muted);font-size:13px;line-height:1.45;'>" +
-          m.goals.map(g => "<li>"+safeText(g)+"</li>").join("") +
-          "</ul>"
-        : "";
-
-      mod.innerHTML =
-        "<h4>"+safeText(m.title || m.id || "Modul")+"</h4>" +
-        (goals || "");
-
-      // Resource chips (module scoped)
-      const chips = document.createElement("div");
-      chips.className = "kicker";
-      chips.style.marginTop = "10px";
-
-      // External refs
-      const ext = (m.resources && Array.isArray(m.resources.external)) ? m.resources.external : [];
-      const intl = (m.resources && Array.isArray(m.resources.internal)) ? m.resources.internal : [];
-
-      ext.forEach((r) => {
-        const a = document.createElement("a");
-        a.className = "tag";
-        a.href = r.url;
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.textContent = "Extern: " + safeText(r.title || "Link");
-        chips.appendChild(a);
-      });
-
-      intl.forEach((r) => {
-        const a = document.createElement("a");
-        a.className = "tag";
-        a.href = r.path;
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.textContent = "PDF: " + safeText(r.title || "Quelle");
-        chips.appendChild(a);
-      });
-
-      if(chips.childNodes.length>0) mod.appendChild(chips);
-
-      // Tasks
-      if(Array.isArray(m.tasks) && m.tasks.length>0){
-        const wrap = document.createElement("div");
-        wrap.className = "list";
-        wrap.style.marginTop = "12px";
-
-        m.tasks.forEach((t, i) => {
-          wrap.appendChild(renderTask(state, safeText(m.id), t, i));
-        });
-
-        mod.appendChild(wrap);
-      }else{
-        const note = document.createElement("div");
-        note.className = "notice";
-        note.style.marginTop = "12px";
-        note.textContent = "Hinweis: Dieses Modul enthält in der Datenquelle keine tasks-Liste. Wenn das nicht beabsichtigt ist, muss das in data/content.js korrigiert werden.";
-        mod.appendChild(note);
-      }
-
-      list.appendChild(mod);
-    });
-
-    renderTeacherVisibility();
-  }
-
-  function renderTeacherVisibility(){
-    const teacher = isTeacher();
-    const nodes = document.querySelectorAll("[data-teacher-only='1']");
-    nodes.forEach(n => {
-      if(teacher) n.classList.remove("hidden");
-      else n.classList.add("hidden");
-    });
-  }
-
-  function exportJSON(){
-    const state = loadState();
-    const payload = {
-      exportedAt: new Date().toISOString(),
-      teacherMode: isTeacher(),
-      resources: window.RESOURCES,
-      roles: window.ROLES,
-      modules: window.MODULES,
-      answers: state.fields,
-      meta: state.meta
-    };
-
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "berliner-salon-1840-export.json";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function exportPDF(){
-    // Druckansicht: Lehrer-Infos nur, wenn Teacher ON ist
-    window.print();
-  }
-
-  function resetAll(){
-    const ok = confirm("Wirklich alles löschen? (LocalStorage, Teacher-Mode, alle Antworten)");
-    if(!ok) return;
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(TEACHER_KEY);
-    renderStatus();
-    renderModules();
-  }
-
-  function teacherPrompt(){
-    if(isTeacher()){
-      const ok = confirm("Teacher-Mode deaktivieren?");
-      if(ok) setTeacher(false);
-      return;
-    }
-    const pw = prompt("Teacher-Mode Passwort:", "");
-    if(pw === null) return;
-    if(pw === DEFAULT_TEACHER_PASSWORD){
-      setTeacher(true);
-      return;
-    }
-    alert("Falsches Passwort.");
-  }
-
-  function init(){
-    renderStatus();
-
-    if(!(window.RESOURCES && window.ROLES && window.MODULES)){
-      // Kein Content – nichts weiter rendern
-      return;
-    }
-
-    renderResources();
-    renderRoles();
-    renderModules();
-    renderStatus();
-
-    el("btnTeacher").addEventListener("click", teacherPrompt);
-    el("btnExport").addEventListener("click", exportJSON);
-    el("btnExportPDF").addEventListener("click", exportPDF);
-    el("btnReset").addEventListener("click", resetAll);
-  }
-
-  init();
-})();
-</script>
-
+  <!-- Teacher Modal -->
+  <dialog id="teacherModal" class="modal">
+    <form method="dialog" class="modal__inner">
+      <div class="modal__title">Teacher-Mode</div>
+      <div class="modal__text">
+        Teacher-Mode schaltet Zusatzfunktionen frei: Musterlösungen, Bewertungsraster, Antwort-Export für alle Felder.
+      </div>
+      <label class="field">
+        <span>Passwort</span>
+        <input id="teacherPassword" type="password" autocomplete="off" />
+      </label>
+      <div class="modal__actions">
+        <button value="cancel" class="btn btn--ghost" type="button" id="teacherCancel">Abbrechen</button>
+        <button value="default" class="btn" type="button" id="teacherUnlock">Freischalten</button>
+      </div>
+      <div class="small muted" id="teacherHint"></div>
+    </form>
+  </dialog>
+
+  <!-- Export Modal -->
+  <dialog id="exportModal" class="modal">
+    <form method="dialog" class="modal__inner modal__inner--wide">
+      <div class="modal__title">Export</div>
+      <div class="modal__text">
+        Wähle Exportformat. PDF enthält strukturierte Antworten; JSON enthält Rohdaten + Zeitstempel.
+      </div>
+      <div class="exportGrid">
+        <div class="card card--soft">
+          <div class="card__title">PDF</div>
+          <p class="small">Für Abgabe/Portfolio. Enthält: Antworten, Rollenwahl, Zeitstempel, Quellenangaben.</p>
+          <button class="btn" type="button" id="exportPdf">PDF erzeugen</button>
+        </div>
+        <div class="card card--soft">
+          <div class="card__title">JSON</div>
+          <p class="small">Für Dokumentation/Weiterarbeit. Enthält: alle Felder, Quiz-Status, Fortschritt.</p>
+          <button class="btn" type="button" id="exportJson">JSON herunterladen</button>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button value="cancel" class="btn btn--ghost" type="button" id="exportClose">Schließen</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- jsPDF (CDN) for PDF export -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" integrity="sha384-ncX6gLh8eWl0yE7x9b2l1B5Jq5nN3m2Wqk8m8z5VnJmH0Z1z2bHk0b8s6+9mJr5" crossorigin="anonymous"></script>
+
+  <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

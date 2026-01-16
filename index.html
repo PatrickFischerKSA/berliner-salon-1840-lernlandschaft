@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Berliner Salon 1840 – Digitale Lernlandschaft</title>
+  <meta name="description" content="Quellengebundene digitale Lernlandschaft: Berliner Salon 1840, Rollen-Diskussion, Frauen in der bürgerlichen Gesellschaft." />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand__title">Berliner Salon 1840</div>
+        <div class="brand__subtitle">Digitale Lernlandschaft – quellengebunden, rollenbasiert, exportierbar</div>
+      </div>
+      <div class="topbar__actions">
+        <button id="btnTeacher" class="btn btn--ghost" type="button" title="Teacher-Mode (Passwort)">Teacher</button>
+        <button id="btnExport" class="btn" type="button" title="Export als PDF & JSON">Export</button>
+        <button id="btnReset" class="btn btn--danger" type="button" title="Fortschritt zurücksetzen">Reset</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="card card--soft">
+          <div class="card__title">Fortschritt</div>
+          <div class="progress">
+            <div class="progress__bar" id="progressBar"></div>
+          </div>
+          <div class="muted" id="progressText">0%</div>
+        </div>
+
+        <nav class="nav" id="navModules" aria-label="Module"></nav>
+
+        <div class="card card--soft">
+          <div class="card__title">Ressourcen</div>
+          <div class="small">Externe Links (explizit):</div>
+          <ul class="linklist" id="externalLinks"></ul>
+          <div class="small" style="margin-top:10px;">PDFs im Repo:</div>
+          <ul class="linklist" id="internalLinks"></ul>
+        </div>
+
+        <div class="card card--soft">
+          <div class="card__title">Arbeitsmodus</div>
+          <ul class="small">
+            <li>Keine Gemeinplätze.</li>
+            <li>Jede Behauptung: Quelle oder Textstelle.</li>
+            <li>Konflikte nicht glätten.</li>
+            <li>Export ist Teil der Abgabe.</li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="hero" id="hero">
+          <div class="hero__inner">
+            <h1>Ein Abend „bei Varnhagen“</h1>
+            <p>
+              Du arbeitest mit historischen und literarischen Quellen und spielst eine Rolle in einem Berliner Salon (1840).
+              Ziel ist keine „richtige Lösung“, sondern quellenbasierte Argumentation.
+            </p>
+            <div class="hero__grid">
+              <div class="hero__box">
+                <div class="hero__label">Impuls</div>
+                <div class="hero__content" id="heroImpulse"></div>
+              </div>
+              <div class="hero__box">
+                <div class="hero__label">Regel</div>
+                <div class="hero__content">
+                  Jede Runde endet mit einem <strong>Quellenbeleg</strong>: „Welche Stelle trägt deine Aussage?“
+                </div>
+              </div>
+              <div class="hero__box">
+                <div class="hero__label">Tipp</div>
+                <div class="hero__content">
+                  Nutze den Export: Du bekommst ein PDF (Abgabe) und eine JSON-Datei (Dokumentation).
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="content" id="content"></section>
+
+        <footer class="footer">
+          <div class="small">
+            Erstellt für GitHub Pages. Offline-fähig (ohne Server). Externe Inhalte werden nur über die explizit verlinkten Quellen geladen.
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <!-- Teacher Modal -->
+  <dialog id="teacherModal" class="modal">
+    <form method="dialog" class="modal__inner">
+      <div class="modal__title">Teacher-Mode</div>
+      <div class="modal__text">
+        Teacher-Mode schaltet Zusatzfunktionen frei: Musterlösungen, Bewertungsraster, Antwort-Export für alle Felder.
+      </div>
+      <label class="field">
+        <span>Passwort</span>
+        <input id="teacherPassword" type="password" autocomplete="off" />
+      </label>
+      <div class="modal__actions">
+        <button value="cancel" class="btn btn--ghost" type="button" id="teacherCancel">Abbrechen</button>
+        <button value="default" class="btn" type="button" id="teacherUnlock">Freischalten</button>
+      </div>
+      <div class="small muted" id="teacherHint"></div>
+    </form>
+  </dialog>
+
+  <!-- Export Modal -->
+  <dialog id="exportModal" class="modal">
+    <form method="dialog" class="modal__inner modal__inner--wide">
+      <div class="modal__title">Export</div>
+      <div class="modal__text">
+        Wähle Exportformat. PDF enthält strukturierte Antworten; JSON enthält Rohdaten + Zeitstempel.
+      </div>
+      <div class="exportGrid">
+        <div class="card card--soft">
+          <div class="card__title">PDF</div>
+          <p class="small">Für Abgabe/Portfolio. Enthält: Antworten, Rollenwahl, Zeitstempel, Quellenangaben.</p>
+          <button class="btn" type="button" id="exportPdf">PDF erzeugen</button>
+        </div>
+        <div class="card card--soft">
+          <div class="card__title">JSON</div>
+          <p class="small">Für Dokumentation/Weiterarbeit. Enthält: alle Felder, Quiz-Status, Fortschritt.</p>
+          <button class="btn" type="button" id="exportJson">JSON herunterladen</button>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button value="cancel" class="btn btn--ghost" type="button" id="exportClose">Schließen</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- jsPDF (CDN) for PDF export -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" integrity="sha384-ncX6gLh8eWl0yE7x9b2l1B5Jq5nN3m2Wqk8m8z5VnJmH0Z1z2bHk0b8s6+9mJr5" crossorigin="anonymous"></script>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

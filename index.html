@@ -7,23 +7,25 @@
   <meta name="description" content="Quellengebundene digitale Lernlandschaft: Berliner Salon 1840, Rollen-Diskussion, Frauen in der bürgerlichen Gesellschaft." />
   <link rel="stylesheet" href="assets/css/style.css" />
 
-  <!-- ===========================
-       NEU (ÄNDERUNG 1): GLOBALER HINTERGRUND
-       Bilddatei muss liegen unter:
+  <!-- ==========================================================
+       ÄNDERUNG (NEU): GLOBALER HINTERGRUND (Gelber Salon)
+       Bilddatei MUSS liegen unter:
        assets/images/Stadtschloss_Gelber_Salon.jpg
-       =========================== -->
+       ========================================================== -->
   <style>
-    /* Globaler Seitenhintergrund: Gelber Salon (Stadtschloss) */
+    /* Globaler Hintergrund auf der ganzen Seite */
     body{
-      background:
-        /* dunkle Überlagerung für Lesbarkeit (Text/Buttons/Panele) */
-        linear-gradient(rgba(5,7,9,0.78), rgba(5,7,9,0.78)),
-        /* Bild als globales Hintergrundmotiv */
-        url("assets/images/Stadtschloss_Gelber_Salon.jpg") center center / cover fixed no-repeat !important;
+      background: url("assets/images/Stadtschloss_Gelber_Salon.jpg") center center / cover fixed no-repeat;
+    }
+
+    /* Sicherheits-Ebene, damit Inhalt IMMER lesbar bleibt
+       (verhindert das "alles ist weg"-Problem) */
+    #app.app{
+      background-color: rgba(0,0,0,0.35);
+      min-height: 100vh;
     }
   </style>
 </head>
-
 <body>
   <div id="app" class="app">
     <header class="topbar">

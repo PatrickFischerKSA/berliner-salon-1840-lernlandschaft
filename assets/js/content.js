@@ -1,3 +1,10 @@
+/* ==========================================================
+   CHANGE 01 (EXPLIZIT, OPTION A):
+   Globalisierung der Datenobjekte für app.js
+   KEINE INHALTLICHE ÄNDERUNG.
+   AUSSCHLIESSLICH: export -> window.
+   ========================================================== */
+
 /*
   Berliner Salon 1840 – Digitale Lernlandschaft
   Inhalt ist bewusst quellengebunden aufgebaut.
@@ -12,7 +19,7 @@
   - paletschek_adel_buergertum_frauen.pdf
 */
 
-export const RESOURCES = {
+window.RESOURCES = {
   external: [
     {
       title: 'Deutschlandfunk: „Vor 250 Jahren geboren: Rahel Varnhagen – Lichtgestalt der Berliner Salons“',
@@ -55,7 +62,7 @@ export const RESOURCES = {
   ]
 };
 
-export const ROLES = [
+window.ROLES = [
   {
     id: 'rahel_varnhagen',
     name: 'Rahel Varnhagen (als „geistige Stimme“ im Salon, 1840 zitiert/gegenwärtig)',
@@ -163,7 +170,7 @@ export const ROLES = [
   }
 ];
 
-export const MODULES = [
+window.MODULES = [
   {
     id: 'm1',
     title: 'Modul 1 – Einstieg: Berlin 1840 als Bühne der Halböffentlichkeit',
